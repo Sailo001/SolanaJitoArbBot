@@ -1,12 +1,10 @@
 services:
   - type: web
     name: sol-jito-arb
-    env: docker
-    repo: https://github.com/<YOUR_GITHUB>/<YOUR_REPO>.git
+    env: docker          # this line locks it to Docker
+    dockerfilePath: Dockerfile
     envVars:
       - key: SOLANA_RPC
-        sync: false
-      - key: JITO_AUTH_KEY
         sync: false
       - key: PRIVATE_KEY_B58
         sync: false
