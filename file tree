@@ -1,0 +1,16 @@
+solana-jito-arb-bot/
+├─ src/
+│  ├─ index.ts
+│  ├─ config.ts
+│  ├─ jito.ts
+│  ├─ arb.ts
+│  ├─ pools.ts
+│  ├─ jupiter.ts
+│  ├─ telegram.ts
+│  └─ types.ts
+├─ .env.example
+├─ Dockerfile
+├─ render.yaml
+├─ tsconfig.json
+├─ package.json
+└─ README.md   (optional – you can delete)
