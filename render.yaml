@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: solana-arb-bot
+    env: node
+    plan: free
+    region: oregon   # or frankfurt if you're in EU
+    buildCommand: "npm install"
+    startCommand: "node index.js"
+    envVars:
+      - key: TG_BOT_TOKEN
+        sync: false
+      - key: ADMIN_ID
+        sync: false
+      - key: SOLANA_RPC
+        sync: false
+      - key: PRIVATE_KEY
+        sync: false
+      - key: PORT
+        value: "3000"
