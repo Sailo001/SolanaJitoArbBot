@@ -1,0 +1,29 @@
+{
+  "name": "solana-jito-arb-bot",
+  "version": "1.0.0",
+  "description": "Atomic arbitrage via Jito bundles + Render web service",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "tsc && node dist/index.js"
+  },
+  "dependencies": {
+    "@solana/web3.js": "^1.95.0",
+    "@jito-foundation/jito-ts": "https://github.com/jito-foundation/jito-ts/archive/refs/tags/v0.0.4.tar.gz",
+    "@orca-so/sdk": "^1.4.3",
+    "@raydium-io/raydium-sdk": "^1.3.1-beta.58",
+    "axios": "^1.7.2",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "node-telegram-bot-api": "^0.66.0",
+    "prom-client": "^15.1.2"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.14.9",
+    "@types/node-telegram-bot-api": "^0.64.7",
+    "typescript": "^5.5.2"
+  },
+  "engines": { "node": ">=20" }
+}
