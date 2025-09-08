@@ -1,7 +1,8 @@
 FROM node:20-alpine
+RUN apk add --no-cache git     # <-- add this
 WORKDIR /app
 COPY package.json ./
-RUN npm install               # <-- change here
+RUN npm install
 COPY . .
 RUN npm run build
 EXPOSE 8080
