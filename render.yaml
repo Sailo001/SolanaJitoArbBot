@@ -1,7 +1,7 @@
 services:
   - type: web
     name: sol-jito-arb
-    env: docker          # this line locks it to Docker
+    env: docker
     dockerfilePath: Dockerfile
     envVars:
       - key: SOLANA_RPC
