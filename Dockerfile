@@ -1,6 +1,8 @@
 FROM node:20-alpine
-RUN apk add --no-cache git     # <-- add this
+RUN apk add --no-cache git openssh-client
 WORKDIR /app
+# tell npm to use HTTPS, not SSH
+RUN git config --global url."https://github.com/".insteadOf "ssh://git@github.com/"
 COPY package.json ./
 RUN npm install
 COPY . .
