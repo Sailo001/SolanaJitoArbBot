@@ -1,16 +1,14 @@
 services:
   - type: web
-    name: meme-arb-bot
+    name: ob-clob-arb
     env: docker
-    dockerfilePath: Dockerfile
+    dockerfilePath: ./Dockerfile
     envVars:
-      - key: TG_BOT_TOKEN
+      - key: RPC_URL
         sync: false
-      - key: ADMIN_ID
-        sync: false
-      - key: SOLANA_RPC
+      - key: WS_URL
         sync: false
       - key: PRIVATE_KEY
         sync: false
-      - key: PORT
-        value: 3000
+      - key: JITO_AUTH_KEY
+        sync: false
