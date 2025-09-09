@@ -1,7 +1,7 @@
 {
   "name": "meme-arb-bot",
   "version": "1.0.0",
-  "description": "Telegram + live arbitrage scanner (Render-ready)",
+  "description": "Telegram + Jupiter price scanner (Render-ready)",
   "main": "index.js",
   "scripts": {
     "build": "echo 'no ts build needed'",
@@ -14,7 +14,6 @@
     "bs58": "^5.0.0",
     "dotenv": "^16.4.5",
     "@jup-ag/api": "^6.0.14",
-    "@orca-so/sdk": "^1.4.3",
     "bn.js": "^5.2.1"
   },
   "engines": { "node": ">=20" },
