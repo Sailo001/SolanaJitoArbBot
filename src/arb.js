@@ -1,13 +1,12 @@
-// src/arb.js  (ES-module, CommonJS-safe)
+// src/arb.js
 import { Connection, PublicKey } from '@solana/web3.js';
-import pkg from '@jup-ag/api';
+import jup from '@jup-ag/api';   // 1. default import, already the client
 import BN from 'bn.js';
 
-const { Jupiter } = pkg;
 const SOL = new PublicKey('So11111111111111111111111111111111111111112');
 
 export async function scanArb(connection, tokens, amountSol = 0.1) {
-  const jup = new Jupiter(connection);
+  // 2. delete  →  const jup = new Jupiter(connection);
   const amt = new BN(amountSol * 1e9);
   const out = [];
 
@@ -17,14 +16,20 @@ export async function scanArb(connection, tokens, amountSol = 0.1) {
 
       // Jupiter route 1: SOL → TOKEN
       const route1 = await jup.quote({
-        inputMint: SOL, outputMint: mint, amount: amt, slippageBps: 50
+        inputMint: SOL.toString(),
+        outputMint: mint.toString(),
+        amount: amt.toString(),
+        slippageBps: 50
       });
       if (!route1.data || !route1.data.length) continue;
       const tokenOut = new BN(route1.data[0].outAmount);
 
       // Jupiter route 2: TOKEN → SOL (reverse)
       const route2 = await jup.quote({
-        inputMint: mint, outputMint: SOL, amount: tokenOut, slippageBps: 50
+        inputMint: mint.toString(),
+        outputMint: SOL.toString(),
+        amount: tokenOut.toString(),
+        slippageBps: 50
       });
       if (!route2.data || !route2.data.length) continue;
       const solBack = new BN(route2.data[0].outAmount);
@@ -37,4 +42,4 @@ export async function scanArb(connection, tokens, amountSol = 0.1) {
     } catch (e) { /* no route */ }
   }
   return out.sort((a, b) => b.profitPc - a.profitPc).slice(0, 3);
-          }
+}
