@@ -1,21 +1,31 @@
 {
-  "name": "meme-arb-bot",
+  "name": "ob-clob-arb",
   "version": "1.0.0",
-  "description": "Telegram + Jupiter price scanner (Render-ready)",
-  "main": "index.js",
+  "description": "OpenBook ↔ Raydium atomic arbitrage via Jito bundles",
+  "main": "dist/index.js",
   "scripts": {
-    "build": "echo 'no ts build needed'",
-    "start": "node index.js"
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "ts-node src/index.ts",
+    "vault": "ts-node scripts/createVault.ts"
   },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
   "dependencies": {
+    "@openbook-dex/openbook-v2": "^0.2.0",
+    "@raydium-io/raydium-sdk-v2": "^0.15.0",
+    "@solana/spl-token": "^0.4.0",
     "@solana/web3.js": "^1.95.0",
-    "telegraf": "^4.16.3",
-    "node-fetch": "^3.3.2",
-    "bs58": "^5.0.0",
-    "dotenv": "^16.4.5",
-    "@jup-ag/api": "^6.0.14",
-    "bn.js": "^5.2.1"
+    "bn.js": "^5.2.1",
+    "dotenv": "^16.0.0",
+    "jito-ts": "^3.0.0"
   },
-  "engines": { "node": ">=20" },
-  "type": "module"
+  "devDependencies": {
+    "@types/bn.js": "^5.1.0",
+    "@types/node": "^20.0.0",
+    "ts-node": "^10.9.0",
+    "typescript": "^5.0.0"
+  },
+  "engines": { "node": ">=20" }
 }
