@@ -6,7 +6,7 @@ import {
   TokenAmount,
   TOKEN_PROGRAM_ID,
   parseBigNumberish,
-} from '@raydium-io/raydium-sdk-v2';
+} from '@raydium-io/raydium-sdk';
 
 export interface Pool {
   getAmountOut(amountIn: number, mintIn: PublicKey, mintOut: PublicKey): {
@@ -21,7 +21,7 @@ export async function getPool(
   mintA: PublicKey,
   mintB: PublicKey,
 ): Promise<Pool> {
-  // ---- 1. fetch all AmmV4 pools (official SDK helper) ----
+  // 1. fetch all AmmV4 pools (official SDK helper)
   const all = await Liquidity.fetchAllPoolKeys(conn, { programId });
   const keys = all.find(
     (k) =>
@@ -30,10 +30,10 @@ export async function getPool(
   );
   if (!keys) throw new Error('Raydium pool not found');
 
-  // ---- 2. load pool info ----
+  // 2. load pool info
   const info = await Liquidity.fetchInfo({ connection: conn, poolKeys: keys });
 
-  // ---- 3. return calculator ----
+  // 3. return calculator
   return {
     getAmountOut(amountIn: number, mintIn: PublicKey): { out: number; fee: number } {
       const zero = new TokenAmount(Token.WSOL, 0);
@@ -51,4 +51,4 @@ export async function getPool(
       return { out: Number(amountOut.raw) / 1e9, fee: Number(fee.raw) / 1e9 };
     },
   };
-}
+        }
