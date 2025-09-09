@@ -1,28 +1,18 @@
 import { Connection, PublicKey } from '@solana/web3.js';
-import {
-  Liquidity,
-  LiquidityPoolKeys,
-  Token,
-  TokenAmount,
-  TOKEN_PROGRAM_ID,
-  parseBigNumberish,
-} from '@raydium-io/raydium-sdk';
+import { Liquidity, LiquidityPoolKeys, Token, TokenAmount, TOKEN_PROGRAM_ID, parseBigNumberish } from '@raydium-io/raydium-sdk-v2';
 
 export interface Pool {
-  getAmountOut(amountIn: number, mintIn: PublicKey, mintOut: PublicKey): {
-    out: number;
-    fee: number;
-  };
+  getAmountOut(amountIn: number, mintIn: PublicKey, mintOut: PublicKey): { out: number; fee: number };
 }
 
 export async function getPool(
   conn: Connection,
-  programId: PublicKey,
+  _programId: PublicKey,
   mintA: PublicKey,
   mintB: PublicKey,
 ): Promise<Pool> {
-  // 1. fetch all AmmV4 pools (official SDK helper)
-  const all = await Liquidity.fetchAllPoolKeys(conn, { programId });
+  // 1. fetch all AMM v4 pools (official helper)
+  const all = await Liquidity.fetchAllPoolKeys(conn, { programId: _programId });
   const keys = all.find(
     (k) =>
       (k.baseMint.equals(mintA) && k.quoteMint.equals(mintB)) ||
@@ -46,9 +36,9 @@ export async function getPool(
         poolInfo: info,
         amountIn: taIn,
         currencyOut: mintIn.equals(keys.baseMint) ? keys.quoteMint : keys.baseMint,
-        slippage: 0, // off-chain calc
+        slippage: 0,
       });
       return { out: Number(amountOut.raw) / 1e9, fee: Number(fee.raw) / 1e9 };
     },
   };
-        }
+                                          }
