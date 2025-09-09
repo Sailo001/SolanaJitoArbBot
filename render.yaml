@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: meme-arb-bot
+    env: docker
+    dockerfilePath: Dockerfile
+    envVars:
+      - key: TG_BOT_TOKEN
+        sync: false
+      - key: ADMIN_ID
+        sync: false
+      - key: SOLANA_RPC
+        sync: false
+      - key: PRIVATE_KEY
+        sync: false
+      - key: PORT
+        value: 3000
