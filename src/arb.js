@@ -1,7 +1,9 @@
+// src/arb.js  (ES-module, CommonJS-safe)
 import { Connection, PublicKey } from '@solana/web3.js';
-import { Jupiter } from '@jup-ag/api';
+import pkg from '@jup-ag/api';
 import BN from 'bn.js';
 
+const { Jupiter } = pkg;
 const SOL = new PublicKey('So11111111111111111111111111111111111111112');
 
 export async function scanArb(connection, tokens, amountSol = 0.1) {
@@ -35,4 +37,4 @@ export async function scanArb(connection, tokens, amountSol = 0.1) {
     } catch (e) { /* no route */ }
   }
   return out.sort((a, b) => b.profitPc - a.profitPc).slice(0, 3);
-}
+          }
