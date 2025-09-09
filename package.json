@@ -1,17 +1,19 @@
 {
-  "name": "solana-arb-bot",
+  "name": "meme-arb-bot",
   "version": "1.0.0",
-  "description": "Solana on-chain arbitrage Telegram bot",
+  "description": "Telegram + Solana price watcher (Render-ready)",
   "main": "index.js",
-  "type": "module",
   "scripts": {
+    "build": "echo 'no ts build needed'",
     "start": "node index.js"
   },
   "dependencies": {
-    "@solana/web3.js": "^1.95.3",
-    "bs58": "^5.0.0",
-    "dotenv": "^16.4.5",
+    "@solana/web3.js": "^1.95.0",
+    "telegraf": "^4.16.3",
     "node-fetch": "^3.3.2",
-    "telegraf": "^4.16.3"
-  }
+    "bs58": "^5.0.0",
+    "dotenv": "^16.4.5"
+  },
+  "engines": { "node": ">=20" },
+  "type": "module"
 }
