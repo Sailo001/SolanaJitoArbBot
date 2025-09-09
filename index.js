@@ -52,4 +52,8 @@ createServer((req, res) => {
   }
 }).listen(port, () => console.log(`🚀 Server listening on port ${port}`));
 
-bot.launch();
+bot.launch()// Use webhook instead of polling (avoids 409 conflict)
+const webhookUrl = `https://meme-coin-awakener.onrender.com/telegraf`;
+bot.telegram.setWebhook(webhookUrl).then(() => {
+  console.log(`🪝 Webhook set to ${webhookUrl}`);
+});
