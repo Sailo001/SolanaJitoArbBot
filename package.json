@@ -14,7 +14,7 @@
   "license": "MIT",
   "dependencies": {
     "@openbook-dex/openbook-v2": "^0.2.0",
-    "@raydium-io/raydium-sdk": "github:raydium-io/raydium-sdk#v0.13.0",
+    "@raydium-io/raydium-sdk-v2": "github:raydium-io/raydium-sdk-v2#main",
     "@solana/spl-token": "^0.4.0",
     "@solana/web3.js": "^1.95.0",
     "bn.js": "^5.2.1",
