@@ -1,8 +1,20 @@
-FROM node:20-alpine
+# Use Node.js LTS
+FROM node:18-slim
+
+# Create app directory
 WORKDIR /usr/src/app
-COPY package.json package-lock.json* ./
-RUN npm ci --only=production || npm install --only=production
+
+# Copy package.json
+COPY package.json ./
+
+# Install dependencies
+RUN npm install --omit=dev
+
+# Copy app source
 COPY . .
-ENV NODE_ENV=production
-EXPOSE 10000
-CMD ["node", "index.js"]
+
+# Expose Render port
+EXPOSE 3000
+
+# Start bot
+CMD ["npm", "start"]
