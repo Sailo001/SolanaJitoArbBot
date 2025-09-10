@@ -1,0 +1,18 @@
+{
+  "name": "solana-arb-telegram-bot",
+  "version": "1.1.0",
+  "description": "Upgraded Solana arbitrage bot: cross-DEX, atomic triangular execution, Orca/OpenBook adapters, Anchor flash-loan scaffold",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "@solana/web3.js": "^1.93.0",
+    "bs58": "^5.0.0",
+    "express": "^4.18.2",
+    "node-fetch": "^2.6.7",
+    "dotenv": "^16.1.4",
+    "@orca-so/whirlpools-sdk": "^1.0.0",
+    "buffer-layout": "^1.2.0"
+  }
+}
