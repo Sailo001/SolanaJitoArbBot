@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: solana-arb-bot
+    env: docker
+    plan: free
+    dockerfilePath: Dockerfile
+    port: 10000
+    buildCommand: npm ci --only=production
+    startCommand: npm start
