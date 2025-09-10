@@ -1,32 +1,16 @@
 {
-  "name": "ob-clob-arb",
+  "name": "quick-sol-arb",
   "version": "1.0.0",
-  "description": "OpenBook ↔ Raydium atomic arbitrage via Jito bundles",
-  "main": "dist/index.js",
+  "description": "Minimal OpenBook → Orca swap arb",
+  "main": "index.js",
   "scripts": {
-    "build": "tsc",
-    "start": "node dist/index.js",
-    "dev": "ts-node src/index.ts",
-    "vault": "ts-node scripts/createVault.ts"
+    "start": "node index.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "MIT",
   "dependencies": {
-    "@openbook-dex/openbook-v2": "^0.2.0",
-    "@solana/spl-token": "^0.4.0",
+    "@orca-so/sdk": "^1.4.3",
     "@solana/web3.js": "^1.95.0",
-    "bn.js": "^5.2.1",
     "dotenv": "^16.0.0",
     "jito-ts": "^3.0.0"
   },
-  "devDependencies": {
-    "@types/bn.js": "^5.1.0",
-    "@types/node": "^20.0.0",
-    "ts-node": "^10.9.0",
-    "typescript": "^5.0.0"
-  },
-  "engines": {
-    "node": ">=20"
-  }
+  "engines": { "node": ">=18" }
 }
