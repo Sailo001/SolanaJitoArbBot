@@ -1,20 +1,23 @@
-# Use Node.js LTS
+# Use a small Node image
 FROM node:18-slim
 
-# Create app directory
+# Create app dir
 WORKDIR /usr/src/app
 
-# Copy package.json
-COPY package.json ./
+# Install system deps (if any)
+RUN apt-get update && apt-get install -y ca-certificates && rm -rf /var/lib/apt/lists/*
 
-# Install dependencies
-RUN npm install --omit=dev
+# Copy package manifest first (leverages Docker cache)
+COPY package.json package-lock.json* ./
 
-# Copy app source
+# Install dependencies (production)
+RUN npm ci --production
+
+# Copy the rest of the app
 COPY . .
 
-# Expose Render port
-EXPOSE 3000
+# Expose port
+EXPOSE 10000
 
-# Start bot
-CMD ["npm", "start"]
+# Run
+CMD ["node", "index.js"]
