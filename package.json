@@ -1,29 +1,18 @@
 {
   "name": "solana-arbitrage-bot",
   "version": "1.0.0",
-  "description": "Solana arbitrage detection bot with Telegram alerts",
-  "main": "index.js",
+  "description": "MEV-protected Solana arbitrage bot with Jupiter V7",
   "type": "module",
+  "main": "index.js",
   "scripts": {
     "start": "node index.js"
   },
   "dependencies": {
-    "bs58": "^6.0.0",
-    "dotenv": "^16.3.1",
+    "bs58": "^2.1.1",
     "express": "^4.18.2",
     "node-fetch": "^3.3.2",
-    "@solana/web3.js": "^1.95.0"
-  },
-  "engines": {
-    "node": ">=18"
-  },
-  "keywords": [
-    "solana",
-    "arbitrage",
-    "raydium",
-    "telegram",
-    "bot"
-  ],
-  "author": "Your Name",
-  "license": "MIT"
+    "p-queue": "^7.3.0",
+    "@solana/web3.js": "^1.94.1",
+    "dotenv": "^16.3.1"
+  }
 }
