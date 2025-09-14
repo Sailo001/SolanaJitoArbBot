@@ -4,20 +4,17 @@ FROM node:20-alpine
 # Set working directory
 WORKDIR /usr/src/app
 
-# Copy package.json and package-lock.json if available
+# Copy package files first (for caching)
 COPY package.json package-lock.json* ./
 
-# Install only production dependencies
+# Install dependencies (omit dev for smaller image)
 RUN npm install --omit=dev
 
-# Copy the rest of the app
+# Copy all source files
 COPY . .
 
-# Expose port (match your index.js PORT)
+# Expose the port the bot listens on
 EXPOSE 10000
-
-# Healthcheck (optional, helps Render detect service is live)
-HEALTHCHECK --interval=30s --timeout=5s --start-period=10s CMD curl -f http://localhost:10000/ || exit 1
 
 # Start the bot
 CMD ["npm", "start"]
