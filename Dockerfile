@@ -1,20 +1,11 @@
-# Use official Node.js LTS
-FROM node:20-alpine
+FROM python:3.12-slim
 
-# Create app directory
-WORKDIR /usr/src/app
+WORKDIR /app
 
-# Copy package files first (to leverage Docker cache)
-COPY package.json package-lock.json* ./
+COPY . /app
 
-# Install dependencies
-RUN npm install --omit=dev
+RUN pip install -r requirements.txt
 
-# Copy app source
-COPY . .
+EXPOSE 8080
 
-# Expose port (match your index.js PORT)
-EXPOSE 10000
-
-# Start the bot
-CMD ["npm", "start"]
+CMD ["python", "bot.py"]
