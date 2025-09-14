@@ -1,19 +1,19 @@
 # Use official Node.js LTS
 FROM node:20-alpine
 
-# Set working directory
+# Create app directory
 WORKDIR /usr/src/app
 
-# Copy package files first (for caching)
+# Copy package files first (to leverage Docker cache)
 COPY package.json package-lock.json* ./
 
-# Install dependencies (omit dev for smaller image)
+# Install dependencies
 RUN npm install --omit=dev
 
-# Copy all source files
+# Copy app source
 COPY . .
 
-# Expose the port the bot listens on
+# Expose port (match your index.js PORT)
 EXPOSE 10000
 
 # Start the bot
