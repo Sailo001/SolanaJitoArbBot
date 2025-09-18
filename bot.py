@@ -29,7 +29,7 @@ MAX_CONCURRENT   = int(os.getenv("MAX_CONCURRENT_REQUESTS", "4"))
 BATCH_DELAY      = float(os.getenv("BATCH_DELAY", "0.5"))
 
 USDC             = "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v"
-JUP_TOKENS_URL   = "https://token.jup.ag/strict"
+JUP_TOKENS_URL   = "https://token.jup.ag/all"
 JUP_QUOTE_URL    = "https://quote-api.jup.ag/v6/quote"
 JUP_SWAP_URL     = "https://quote-api.jup.ag/v6/swap"
 CG_PRICE_URL     = "https://api.coingecko.com/api/v3/simple/price"
