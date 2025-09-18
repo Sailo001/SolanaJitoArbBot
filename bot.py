@@ -396,14 +396,19 @@ async def run_bot():
         await asyncio.sleep(POLL_INTERVAL)
 
 # ------------------------------------------------------------------
-# Entry-point – uvicorn async
+# Entry-point – no uvicorn, just threaded Flask
 # ------------------------------------------------------------------
-async def serve_flask():
-    config = Config(app, host="0.0.0.0", port=int(os.environ.get("PORT", 8080)), log_level="info")
-    await Server(config).serve()
-
 async def main():
-    await asyncio.gather(run_bot(), serve_flask())
+    # Fire Flask in a thread so the event-loop stays free for the bot
+    import threading, functools
+    flask_thread = threading.Thread(
+        target=functools.partial(app.run, host="0.0.0.0", port=int(os.environ.get("PORT", 8080))),
+        daemon=True
+    )
+    flask_thread.start()
+
+    # Run the bot on the main event-loop
+    await run_bot()
 
 if __name__ == "__main__":
     asyncio.run(main())
