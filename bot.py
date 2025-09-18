@@ -284,20 +284,7 @@ def start_logs():
 # --------------------------------------------------------------------------- #
 # runner
 # --------------------------------------------------------------------------- #
-async def run_bot():
-    detector = ArbDetector()
-    while True:
-        try:
-            async with new_session() as session:
-                tokens = await fetch_jupiter_token_list(session)
-                if not tokens:
-                    logger.warning("Falling back to tokens.json")
-                    with open(TOKEN_FILE) as f:
-                        tokens = [{"symbol": k, "address": v["address"]} for k, v in json.load(f).items()]
-                await detector.scan(tokens)
-        except Exception as e:
-            logger.error("Scan crash: %s", e)
-        await asyncio.sleep(POLL_INTERVAL)
+
 
 # --------------------------------------------------------------------------- #
 if __name__ == "__main__":
