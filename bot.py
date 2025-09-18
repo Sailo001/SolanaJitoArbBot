@@ -67,6 +67,23 @@ def new_session() -> aiohttp.ClientSession:
 
 # --------------------------------------------------------------------------- #
 # token list
+async def fetch_jupiter_token_list(session: aiohttp.ClientSession) -> List[Dict[str, str]]:
+    cached = token_list_cache.get("jup_tokens")
+    if cached:
+        return cached
+    logger.info("Fetching token list from %s", JUP_TOKENS_URL)
+    try:
+        async with session.get(JUP_TOKENS_URL, timeout=10) as resp:
+            if resp.status == 200:
+                data = await resp.json()
+                tokens = [{"symbol": t["symbol"], "address": t["address"]} for t in data if t.get("address") and t.get("symbol")]
+                token_list_cache.set("jup_tokens", tokens)
+                logger.info("Fetched %s tokens from %s", len(tokens), JUP_TOKENS_URL)
+                return tokens
+            logger.warning("token-list %s – %s", resp.status, await resp.text())
+    except Exception as e:
+        logger.error("token-list fetch failed: %s", e)
+    return []
 # --------------------------------------------------------------------------- #
 
 
