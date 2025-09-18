@@ -80,7 +80,7 @@ async def fetch_jupiter_token_list(session: aiohttp.ClientSession) -> List[Dict[
                 token_list_cache.set("jup_tokens", tokens)
                 logger.info("Fetched %s tokens from %s", len(tokens), JUP_TOKENS_URL)
                 return tokens
-            logger.warning("token-list %s – %s", resp.status, await resp.text())
+            logger.warning     logger.info("Loaded %s tokens from fallback file", len(tokens))("token-list %s – %s", resp.status, await resp.text())
     except Exception as e:
         logger.error("token-list fetch failed: %s", e)
     return []
