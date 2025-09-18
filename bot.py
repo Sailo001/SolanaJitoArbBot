@@ -101,82 +101,79 @@ class ArbDetector:
         except Exception as e:
             logger.error(f"Failed to load {TOKEN_FILE}: {e}")
             raise
+# ----------------------------------------------------------
+# Raydium AMM pool price (v4)  –  correct offsets
+# ----------------------------------------------------------
+async def get_raydium_pool_price(self, token_address: str, retries=3):
+    try:
+        token_mint = Pubkey.from_string(token_address)
+        usdc_mint  = Pubkey.from_string(USDC_ADDRESS)
+        # canonical order
+        mint_a, mint_b = (
+            (token_mint, usdc_mint) if token_mint < usdc_mint else (usdc_mint, token_mint)
+        )
+        pool_addr = Pubkey.find_program_address(
+            [b"amm", bytes(mint_a), bytes(mint_b)], RAYDIUM_PROGRAM
+        )[0]
 
-    # ------------------------------------------------------------------
-    # Raydium AMM pool price (v4)
-    # ------------------------------------------------------------------
-    async def get_raydium_pool_price(self, token_address: str, retries=3):
-        try:
-            token_mint = Pubkey.from_string(token_address)
-            usdc_mint = Pubkey.from_string(USDC_ADDRESS)
-            pool_addr = SoldersPubkey.find_program_address(
-                [b"amm", bytes(token_mint), bytes(usdc_mint)]
-                if token_mint < usdc_mint
-                else [b"amm", bytes(usdc_mint), bytes(token_mint)],
-                RAYDIUM_PROGRAM,
-            )[0]
+        for attempt in range(retries):
+            try:
+                resp = await self.rpc_client.get_account_info(pool_addr, commitment=Confirmed)
+                if not resp.value or not resp.value.data:
+                    return None
+                data      = resp.value.data
+                base_r    = int.from_bytes(data[64:72],  'little')
+                quote_r   = int.from_bytes(data[72:80],  'little')
+                if base_r == 0 or quote_r == 0:
+                    return None
+                is_token0 = token_mint < usdc_mint
+                price     = (quote_r / base_r) if is_token0 else (base_r / quote_r)
+                return price
+            except Exception as e:
+                logger.debug("Raydium fetch error (attempt %s): %s", attempt + 1, e)
+                if attempt < retries - 1:
+                    await asyncio.sleep(2 ** attempt * 4)
+        return None
+    except Exception as e:
+        logger.error("Raydium price error: %s", e)
+        return None
 
-            for attempt in range(retries):
-                try:
-                    resp = await self.rpc_client.get_account_info(pool_addr, commitment=Confirmed)
-                    if not resp.value or not resp.value.data:
-                        return None
-                    data = resp.value.data
-                    base_r = int.from_bytes(data[64:72], "little")
-                    quote_r = int.from_bytes(data[72:80], "little")
-                    if base_r == 0 or quote_r == 0:
-                        return None
-                    is_token0 = token_mint < usdc_mint
-                    price = (quote_r / base_r) if is_token0 else (base_r / quote_r)
-                    return price
-                except Exception as e:
-                    logger.debug(f"Raydium fetch error (attempt {attempt+1}): {e}")
-                    if attempt < retries - 1:
-                        await asyncio.sleep(2**attempt * 4)
-            return None
-        except Exception as e:
-            logger.error(f"Raydium price error: {e}")
-            return None
+# ----------------------------------------------------------
+# Orca Whirlpool price (0.3 % tier)
+# ----------------------------------------------------------
+async def get_orca_pool_price(self, token_address: str, retries=3):
+    try:
+        token_mint = Pubkey.from_string(token_address)
+        usdc_mint  = Pubkey.from_string(USDC_ADDRESS)
+        mint_a, mint_b = (
+            (token_mint, usdc_mint) if token_mint < usdc_mint else (usdc_mint, token_mint)
+        )
+        pool_addr = Pubkey.find_program_address(
+            [b"whirlpool", bytes(mint_a), bytes(mint_b), b"\x0b\xb8"],  # 0.3 % fee
+            ORCA_PROGRAM,
+        )[0]
 
-    # ------------------------------------------------------------------
-    # Orca Whirlpool price (0.3% tier)
-    # ------------------------------------------------------------------
-    async def get_orca_pool_price(self, token_address: str, retries=3):
-        try:
-            token_mint = Pubkey.from_string(token_address)
-            usdc_mint = Pubkey.from_string(USDC_ADDRESS)
-            pool_addr = SoldersPubkey.find_program_address(
-                [
-                    b"whirlpool",
-                    bytes(token_mint if token_mint < usdc_mint else usdc_mint),
-                    bytes(usdc_mint if token_mint < usdc_mint else token_mint),
-                    b"\x0b\xb8",  # 0.3% fee tier
-                ],
-                ORCA_PROGRAM,
-            )[0]
-
-            for attempt in range(retries):
-                try:
-                    resp = await self.rpc_client.get_account_info(pool_addr, commitment=Confirmed)
-                    if not resp.value or not resp.value.data:
-                        return None
-                    data = resp.value.data
-                    # Whirlpool: 64 byte header, then tokenVaultA (16) tokenVaultB (16)
-                    vault_a = int.from_bytes(data[64:80], "little")
-                    vault_b = int.from_bytes(data[80:96], "little")
-                    if vault_a == 0 or vault_b == 0:
-                        return None
-                    is_token0 = token_mint < usdc_mint
-                    price = (vault_b / vault_a) if is_token0 else (vault_a / vault_b)
-                    return price
-                except Exception as e:
-                    logger.debug(f"Orca fetch error (attempt {attempt+1}): {e}")
-                    if attempt < retries - 1:
-                        await asyncio.sleep(2**attempt * 4)
-            return None
-        except Exception as e:
-            logger.error(f"Orca price error: {e}")
-            return None
+        for attempt in range(retries):
+            try:
+                resp = await self.rpc_client.get_account_info(pool_addr, commitment=Confirmed)
+                if not resp.value or not resp.value.data:
+                    return None
+                data      = resp.value.data
+                vault_a   = int.from_bytes(data[64:80],  'little')  # tokenVaultA (u128)
+                vault_b   = int.from_bytes(data[80:96],  'little')  # tokenVaultB (u128)
+                if vault_a == 0 or vault_b == 0:
+                    return None
+                is_token0 = token_mint < usdc_mint
+                price     = (vault_b / vault_a) if is_token0 else (vault_a / vault_b)
+                return price
+            except Exception as e:
+                logger.debug("Orca fetch error (attempt %s): %s", attempt + 1, e)
+                if attempt < retries - 1:
+                    await asyncio.sleep(2 ** attempt * 4)
+        return None
+    except Exception as e:
+        logger.error("Orca price error: %s", e)
+        return None
 
     # ------------------------------------------------------------------
     # Jupiter quote
