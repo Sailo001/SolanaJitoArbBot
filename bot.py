@@ -297,7 +297,11 @@ async def run_bot():
         await asyncio.sleep(POLL_INTERVAL)
 
 # --------------------------------------------------------------------------- #
-if __name__ == "__main__":
-    logger.info("Dynamic-size Solana arb bot starting – logs visible via /start-logs")
-    threading.Thread(target=asyncio.run, args=(run_bot(),), daemon=True).start()
-    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
+        if __name__ == "__main__":
+    logger = logging.getLogger(__name__)
+    logger.info("BOOT: starting bot")
+    try:
+        threading.Thread(target=lambda: asyncio.run(run_bot()), daemon=True).start()
+    except Exception as boot_e:
+        logger.exception("BOOT CRASH: %s", boot_e)
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 8080))
