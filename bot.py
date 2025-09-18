@@ -44,7 +44,7 @@ SLIPPAGE_BPS = int(os.getenv("SLIPPAGE_BPS", 50))
 POLL_INTERVAL = int(os.getenv("POLL_INTERVAL", 15))
 JUPITER_URL = "https://quote-api.jup.ag/v6/quote"
 COINGECKO_URL = "https://api.coingecko.com/api/v3/simple/price"
-DEXSCREENER_URL = "https://api.dexscreener.com/latest/dex/tokens"
+DEXSCREENER_URL = "https://api.dexscreener.com/latest/dex/search?q=solana"
 INVALID_TOKEN_TTL = 600
 MAX_CONCURRENT_REQUESTS = 1
 BATCH_DELAY = 2.0
