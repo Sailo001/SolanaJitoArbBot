@@ -173,32 +173,7 @@ class ArbDetector:
             logger.debug("simulateTransaction failed: %s", e)
         return 0
 
-    async def detect_one(self, session: aiohttp.ClientSession, symbol: str, address: str) -> Optional[Dict[str, Any]]:
-        if self._is_invalid(USDC, address) or self._is_invalid(address, USDC):
-            return None
-
-        for usd_size in (10, 25, 50, 100):                       # dynamic ladder
-            amount = usd_size * 1_000_000
-            q1 = await jupiter_quote(session, USDC, address, amount)
-            if not q1:
-                continue
-            token_out = int(q1["outAmount"])
-
-            q2 = await jupiter_quote(session, address, USDC, token_out)
-            if not q2:
-                continue
-
-            liquidity_usd = float(q1.get("liquidity", 0)) + float(q2.get("liquidity", 0))
-            if liquidity_usd < LIQUIDITY_FLOOR_USD:               # ≥ 200 USD
-                continue
-
-            slippage = abs(1 - int(q2["outAmount"]) / int(q1["outAmount"])) * 100
-            if slippage > 1.0:                                    # ≤ 1 %
-                continue
-
-            max_usd_profit = (int(q2["outAmount"]) - amount) / 1_000_000
-            if max_usd_profit > MAX_USD_PROFIT:                   # ≤ 25 USD
-                continue
+    
 
             # ----  real /swap tx  ---- #
             swap_resp = await session.post(
