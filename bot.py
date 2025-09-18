@@ -283,6 +283,23 @@ def start_logs():
 
 # --------------------------------------------------------------------------- #
 # runner
+async def run_bot():
+    logger.info("BOOT: entering run_bot loop")
+    detector = ArbDetector()
+    while True:
+        try:
+            logger.info("BOOT: about to fetch token list")
+            async with new_session() as session:
+                tokens = await fetch_jupiter_token_list(session)
+                if not tokens:
+                    logger.warning("BOOT: falling back to tokens.json")
+                    with open(TOKEN_FILE) as f:
+                        tokens = [{"symbol": k, "address": v["address"]} for k, v in json.load(f).items()]
+                logger.info("BOOT: starting scan for %s tokens", len(tokens))
+                await detector.scan(tokens)
+        except Exception as e:
+            logger.exception("BOOT: crash in run_bot: %s", e)
+        await asyncio.sleep(POLL_INTERVAL)
 # --------------------------------------------------------------------------- #
 
 
