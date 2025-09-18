@@ -1,11 +1,12 @@
-# 1. build stage (stripped)
+# 1. build stage (dummy first)
 FROM rust:1.73-slim AS builder
 WORKDIR /app
-# cache dependencies – copy BOTH files
+# copy manifests first
 COPY Cargo.toml Cargo.lock ./
-RUN mkdir src && echo "fn main(){}" > src/main.rs
-RUN cargo build --release && rm -rf src
-# now copy real source
+# create dummy main.rs so cargo can build
+RUN mkdir src && echo 'fn main() { println!("dummy"); }' > src/main.rs
+RUN cargo build --release
+# now copy real source & rebuild only what changed
 COPY . .
 RUN touch src/main.rs && cargo build --release --bin solana-arb-detector
 
