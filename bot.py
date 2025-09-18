@@ -15,7 +15,10 @@ import threading
 import requests
 import logging
 from solders.pubkey import Pubkey
-from solders.solders.pubkey import Pubkey as SoldersPubkey
+pool_addr = Pubkey.find_program_address(
+    [b"amm", bytes(mint_a), bytes(mint_b)],
+    RAYDIUM_PROGRAM,
+)[0]
 from solana.rpc.async_api import AsyncClient
 from solana.rpc.commitment import Confirmed
 
