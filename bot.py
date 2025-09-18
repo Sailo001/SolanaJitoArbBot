@@ -113,7 +113,10 @@ class ArbDetector:
                 data = await resp.json()
 
             out = {}
-            for pair in data.get("pairs", [])[:limit]:
+            for pair in data.get("pairs", []):
+    if pair.get("chainId") != "solana":
+        continue
+    # keep the rest
                 if pair.get("chainId") != "solana":
                     continue
                 mint = pair["baseToken"]["address"]
