@@ -72,7 +72,7 @@ async def fetch_jupiter_token_list(session: aiohttp.ClientSession) -> List[Dict[
     cached = token_list_cache.get("jup_tokens")
     if cached:
         return cached
-    try:
+    try:    logger.info("Fetching token list from %s", JUP_TOKENS_URL)
         async with session.get(JUP_TOKENS_URL, timeout=10) as resp:
             if resp.status == 200:
                 data = await resp.json()
