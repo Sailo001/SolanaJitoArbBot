@@ -12,7 +12,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy application files
 COPY bot.py .
-COPY tokens.json .
 
 # Expose port for Flask (Render default is 8080)
 EXPOSE 8080
