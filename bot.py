@@ -17,7 +17,6 @@ import logging
 from solders.pubkey import Pubkey
 from solana.rpc.async_api import AsyncClient
 from solana.rpc.commitment import Confirmed
-from uvicorn import Config, Server
 
 # ------------------------------------------------------------------
 # Logging
