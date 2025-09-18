@@ -172,7 +172,19 @@ class ArbDetector:
         except Exception as e:
             logger.debug("simulateTransaction failed: %s", e)
         return 0
-
+async def detect_one(self, session: aiohttp.ClientSession, symbol: str, address: str) -> Optional[Dict[str, Any]]:
+    amount = 10 * 1_000_000                                    # 10 USDC
+    q1 = await jupiter_quote(session, USDC, address, amount)
+    if not q1:
+        logger.debug("NO QUOTE  %s  USDC→%s", symbol, address)
+        return None
+    q2 = await jupiter_quote(session, address, USDC, int(q1["outAmount"]))
+    if not q2:
+        logger.debug("NO QUOTE  %s  %s→USDC", symbol, address)
+        return None
+    raw_pct = ((int(q2["outAmount"]) - amount) / amount) * 100
+    logger.info("RAW  %s  %.2f%%  in=%s  out=%s", symbol, raw_pct, amount, q2["outAmount"])
+    return None                                                # never alert
     
 
             # ----  real /swap tx  ---- #
