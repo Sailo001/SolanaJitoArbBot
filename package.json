@@ -1,7 +1,7 @@
 {
   "name": "solana-arb-bot",
-  "version": "1.0.0",
-  "description": "On-chain Solana meme coin arbitrage bot with Telegram alerts",
+  "version": "2.0.0",
+  "description": "On-chain Solana meme coin arbitrage bot v2 with Telegram alerts",
   "type": "module",
   "scripts": {
     "start": "node index.js"
