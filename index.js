@@ -193,4 +193,14 @@ http
   .listen(PORT, () => console.log(`🌍 Health server on port ${PORT}`));
 
 // ----------------------  START  ----------------------
-
+// ----------------------  SAFE START-UP  ----------------------
+try {
+  await loadTokens();
+  await buildPoolCache();
+  setInterval(scanArbitrage, SCAN_INTERVAL);
+  console.log("🤖 Meme-coin on-chain arbitrage bot started (Raydium + Orca)...");
+  await sendTelegramMessage("✅ Bot deployed: scanning cached pools for ≥2 % gaps!");
+} catch (e) {
+  console.error("💥 Start-up crash:", e);
+  process.exit(1); // fail fast so Render shows the error
+}
