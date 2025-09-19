@@ -190,7 +190,7 @@ http
     res.writeHead(200, { "Content-Type": "text/plain" });
     res.end("✅ Meme-coin on-chain arbitrage bot running\n");
   })
-  .listen(PORT, () => console.log(`🌍 Health server on port ${PORT}`)));
+  .listen(PORT, () => console.log(`🌍 Health server on port ${PORT}`));
 
 // ----------------------  START  ----------------------
 await loadTokens();
