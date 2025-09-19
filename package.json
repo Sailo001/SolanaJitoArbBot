@@ -1,14 +1,15 @@
 {
   "name": "solana-arb-bot",
   "version": "1.0.0",
-  "description": "A simple Solana on-chain arbitrage detection bot with Telegram alerts",
-  "type": "module",
+  "description": "Solana DEX arbitrage scanner with Telegram alerts",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "start": "node index.js"
   },
   "dependencies": {
+    "dotenv": "^16.0.3",
     "node-fetch": "^3.3.2",
-    "dotenv": "^16.4.5"
+    "telegraf": "^4.15.3"
   }
 }
