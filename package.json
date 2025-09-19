@@ -1,12 +1,14 @@
 {
   "name": "solana-arb-bot",
   "version": "1.0.0",
-  "main": "index.js",
+  "description": "A simple Solana on-chain arbitrage detection bot with Telegram alerts",
   "type": "module",
+  "main": "index.js",
   "scripts": {
     "start": "node index.js"
   },
   "dependencies": {
-    "node-fetch": "^3.3.2"
+    "node-fetch": "^3.3.2",
+    "dotenv": "^16.4.5"
   }
 }
