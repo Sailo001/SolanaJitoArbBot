@@ -1,0 +1,13 @@
+{
+  "name": "solana-arb-bot",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "@solana/web3.js": "^1.83.0",
+    "node-fetch": "^3.3.1",
+    "dotenv": "^16.3.1"
+  }
+}
