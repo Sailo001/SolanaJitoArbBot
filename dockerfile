@@ -1,12 +1,11 @@
-FROM node:18-alpine
+# Dockerfile
+FROM node:18
 
 WORKDIR /app
 
 COPY package*.json ./
-RUN npm install --omit=dev --production
+RUN npm install --production
 
 COPY . .
 
-EXPOSE 10000
-
-CMD ["node", "index.js"]
+CMD ["npm", "start"]
