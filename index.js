@@ -148,7 +148,7 @@ async function buildPoolCache() {
   // ========= 2. DEXSCREENER — CORRECT ENDPOINT: chainIds=solana =========
   try {
     console.log("🔄 Fetching Solana pairs from DexScreener...");
-    const url = "https://api.dexscreener.com/latest/dex/search?q=&chainIds=solana";
+    const url = "https://corsproxy.io/?https://api.dexscreener.com/latest/dex/search?q=&chainIds=solana";
     const res = await fetchWithTimeout(url, {}, 30000);
 
     if (!res.ok) {
