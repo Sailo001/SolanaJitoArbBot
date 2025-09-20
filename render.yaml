@@ -1,9 +1,0 @@
-services:
-  - type: web
-    name: meme-coin-awakener
-    env: docker
-    plan: free
-    autoDeploy: true
-    envVars:
-      - key: TELEGRAM_TOKEN
-        sync: false
