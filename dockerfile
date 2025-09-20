@@ -1,19 +1,19 @@
-# Use Node 18 LTS
-FROM node:18
+# Use official Node.js LTS image
+FROM node:18-alpine
 
 # Set working directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json first for caching
-COPY package*.json ./
+# Copy package files first (for caching dependencies)
+COPY package.json package-lock.json* ./
 
 # Install dependencies
-RUN npm install
+RUN npm install --production
 
-# Copy the rest of the code
+# Copy source code
 COPY . .
 
-# Expose Render port
+# Expose port for Render
 EXPOSE 10000
 
 # Start the bot
