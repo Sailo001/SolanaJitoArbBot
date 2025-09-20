@@ -144,7 +144,7 @@ async function buildPoolCache() {
   // ========= 2. DEXSCREENER — USE /pairs/solana (NOT /search) =========
   try {
     console.log("🔄 Fetching ALL Solana pairs from DexScreener...");
-    const url = "https://api.dexscreener.com/latest/dex/pairs/solana";
+    const url = "https://api.dexscreener.com/latest/dex/chains/solana";
     const res = await fetchWithTimeout(url, {}, 30000);
 
     if (!res.ok) {
