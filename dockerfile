@@ -1,20 +1,12 @@
-# Use Node.js 18 LTS
-FROM node:18
+FROM node:18-alpine
 
-# Set working directory
-WORKDIR /usr/src/app
+WORKDIR /app
 
-# Copy package files
-COPY package.json package-lock.json* ./
+COPY package*.json ./
+RUN npm ci --only=production
 
-# Install dependencies
-RUN npm install
-
-# Copy source code
 COPY . .
 
-# Expose port for healthcheck
 EXPOSE 10000
 
-# Start the bot
 CMD ["node", "index.js"]
