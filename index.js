@@ -91,3 +91,24 @@ bot.launch().then(() => {
   sendAlert("✅ Meme Coin Arb Bot is live and scanning 🚀");
   setInterval(runPipeline, SCAN_INTERVAL);
 });
+import express from "express";
+
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+// ✅ health check route (so Render sees it's alive)
+app.get("/", (req, res) => {
+  res.send("🚀 Meme Coin Awakener bot running");
+});
+
+// ✅ Telegram webhook endpoint
+app.post("/webhook", express.json(), (req, res) => {
+  // Handle incoming Telegram updates
+  console.log("Telegram update:", req.body);
+  res.sendStatus(200);
+});
+
+// Start server
+app.listen(PORT, () => {
+  console.log(`✅ Server listening on port ${PORT}`);
+});
