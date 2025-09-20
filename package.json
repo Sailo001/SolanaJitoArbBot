@@ -1,7 +1,7 @@
 {
-  "name": "dummy-mev-flashloan-bot",
+  "name": "flashloan-arb-bot",
   "version": "1.0.0",
-  "description": "Telegram bot for dummy MEV flashloan execution with PnL tracking",
+  "description": "Telegram Flashloan Arbitrage Bot with MEV Protection",
   "type": "module",
   "main": "index.js",
   "scripts": {
@@ -9,9 +9,9 @@
   },
   "dependencies": {
     "express": "^4.18.2",
-    "telegraf": "^4.14.2"
+    "telegraf": "^4.13.0"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=18.0.0"
   }
 }
