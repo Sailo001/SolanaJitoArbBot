@@ -1,15 +1,16 @@
 {
   "name": "solana-flashloan-bot",
   "version": "1.0.0",
-  "type": "module",
+  "description": "Solana Arbitrage Bot with dummy execution",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "start": "node index.js"
   },
   "dependencies": {
-    "express": "^4.19.2",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
     "node-fetch": "^3.3.2",
-    "telegraf": "^4.15.3",
-    "dotenv": "^16.4.5"
+    "telegraf": "^4.16.3"
   }
 }
