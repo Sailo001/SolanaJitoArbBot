@@ -1,17 +1,15 @@
 {
-  "name": "flashloan-arb-bot",
+  "name": "solana-flashloan-bot",
   "version": "1.0.0",
-  "description": "Telegram Flashloan Arbitrage Bot with MEV Protection",
   "type": "module",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
   },
   "dependencies": {
-    "express": "^4.18.2",
-    "telegraf": "^4.13.0"
-  },
-  "engines": {
-    "node": ">=18.0.0"
+    "express": "^4.19.2",
+    "node-fetch": "^3.3.2",
+    "telegraf": "^4.15.3",
+    "dotenv": "^16.4.5"
   }
 }
