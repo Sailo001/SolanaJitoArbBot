@@ -2,6 +2,7 @@
   "name": "solana-arbitrage-bot",
   "version": "1.0.0",
   "description": "Solana arbitrage bot with flashloan execution and MEV protection",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
